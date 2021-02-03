@@ -1,20 +1,19 @@
 const { sendEmail, randomizer } = require(`../src/index`);
+sendMail = jasmine.createSpy(sendEmail);
+sendMail(`siyabulela.khumalo@umuzi.org`);
 
-describe("Emailer", function () {
-  it("should check if sendEmail function exist", () => {
-    expect(sendEmail).toBeDefined();
+describe("Emailer", () => {
+  it("should check that the function that actually sends emails gets called", () => {
+    expect(sendMail).toHaveBeenCalled();
+  });
+  it("should check that the function gets called once, not twice", () => {
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    expect(sendMail).not.toHaveBeenCalledTimes(2);
+  });
+  it("should check that function get called correctly, with the correct arguments", () => {
+    expect(sendMail).toHaveBeenCalledWith(`siyabulela.khumalo@umuzi.org`);
   });
   it("should check if randomizer function exist", () => {
     expect(randomizer).toBeDefined();
-  });
-  it("should spy on mailOptions in sendEmail function", () => {
-    mailOptions = jasmine.createSpy("sendEmail");
-    mailOptions();
-    expect(mailOptions).toHaveBeenCalled();
-  });
-  it("should spy on transport in sendMail function", () => {
-    transport = jasmine.createSpy("sendEmail");
-    transport();
-    expect(transport).toHaveBeenCalled();
   });
 });
